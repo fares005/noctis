@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NOCTIS — Midnight Neon</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <canvas id="particles"></canvas>
+
+  <!-- Loading -->
+  <section id="loadingScreen" class="screen loading-screen">
+    <div class="loading-mark">☾</div>
+    <div class="loading-logo">NOCTIS</div>
+    <div class="loading-sub">ENTER THE MIDNIGHT</div>
+    <div class="loader"><span id="loaderBar"></span></div>
+    <div class="loading-percent" id="loadingPercent">0%</div>
+  </section>
+
+  <!-- Lobby -->
+  <section id="lobbyScreen" class="screen lobby-screen hidden">
+    <div class="lobby-card glass">
+      <div class="mini-moon">☾</div>
+      <h1>NOCTIS</h1>
+      <p class="subtitle">MEMORY · STRATEGY · MIDNIGHT</p>
+      <div class="lobby-tabs">
+        <button class="tab active" data-tab="create">CREATE GAME</button>
+        <button class="tab" data-tab="join">JOIN GAME</button>
+      </div>
+      <div id="createPane" class="pane">
+        <label>Your name<input id="playerName" value="You" maxlength="14" /></label>
+        <label>Players<select id="playerCount"><option>2</option><option>3</option><option selected>4</option></select></label>
+        <button id="createGame" class="primary-btn">CREATE ROOM</button>
+      </div>
+      <div id="joinPane" class="pane hidden">
+        <label>Room code<input id="joinCode" placeholder="K7DF9" maxlength="5" /></label>
+        <label>Your name<input id="joinName" value="You" maxlength="14" /></label>
+        <button id="joinGame" class="primary-btn">JOIN ROOM</button>
+      </div>
+      <div class="lobby-note">Prototype mode: friends are simulated by bots for now.</div>
+    </div>
+  </section>
+
+  <!-- Game -->
+  <div id="gameUI" class="game-ui hidden">
+    <header class="topbar">
+      <div>
+        <div class="logo">NOCTIS</div>
+        <div class="tag">MEMORY. STRATEGY. NOCTIS.</div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="musicBtn" title="Music">♫</button>
+        <button class="icon-btn" id="soundBtn" title="Sound">🔊</button>
+        <button class="icon-btn" id="menuBtn" title="Menu">☰</button>
+      </div>
+    </header>
+
+    <aside class="left-panel">
+      <section class="panel room-panel">
+        <div class="panel-kicker">ROOM CODE</div>
+        <div class="room-code"><span id="roomCode">K7DF9</span> <button class="copy-btn" id="copyRoom">⧉</button></div>
+        <div class="room-meta"><span>PLAYERS</span><b id="playersMeta">4 / 4</b></div>
+        <button class="leave-btn" id="leaveRoom">LEAVE ROOM</button>
+      </section>
+
+      <section class="panel round-panel">
+        <div class="panel-kicker">ROUND</div>
+        <div class="round-value"><span id="roundNum">1</span> / 10</div>
+      </section>
+
+      <section class="panel score-panel">
+        <div class="panel-kicker">SCORE</div>
+        <div id="scoreRows"></div>
+      </section>
+    </aside>
+
+    <main class="table-wrap">
+      <div class="table-ring"></div>
+      <div id="opponents"></div>
+
+      <section class="center-piles">
+        <div class="pile">
+          <button class="pile-button" id="drawPileBtn"><img class="deck-card" src="assets/card-back-gold.png" alt="Draw pile"/></button>
+          <div class="pile-label cyan-text">DRAW PILE</div>
+        </div>
+        <div class="pile">
+          <button class="pile-button" id="discardPileBtn"><img class="discard-card" id="discardImg" src="assets/spy7.png" alt="Discard pile"/></button>
+          <div class="pile-label pink-text">DISCARD PILE</div>
+        </div>
+      </section>
+
+      <section class="you-area">
+        <div class="you-profile">
+          <div class="you-name" id="youName">You</div>
+          <div class="avatar avatar-you">Y</div>
+          <div class="badge cyan-badge" id="youRoundScore">0</div>
+        </div>
+        <div class="hand" id="hand"></div>
+        <div class="call-hint" id="callHint">Remember your cards.</div>
+        <button class="call-btn" id="callBtn">CALL CABO</button>
+      </section>
+    </main>
+
+    <aside class="right-panel">
+      <section class="panel music-panel">
+        <div class="track-row">
+          <div class="music-note">♫</div>
+          <div><div class="track-title">Midnight Horizon</div><div class="track-sub">NOCTIS ambient synth</div></div>
+          <button class="pause-btn" id="pauseBtn">Ⅱ</button>
+        </div>
+        <div class="wave"></div>
+        <input id="volume" type="range" min="0" max="100" value="50" />
+      </section>
+
+      <section class="panel log-panel">
+        <div class="panel-kicker">GAME LOG</div>
+        <div id="gameLog"></div>
+      </section>
+
+      <section class="actions">
+        <button class="action-btn cyan-action" data-action="peek">◉ <span>PEEK</span></button>
+        <button class="action-btn violet-action" data-action="spy">⌁ <span>SPY</span></button>
+        <button class="action-btn pink-action" data-action="swap">↔ <span>SWAP</span></button>
+      </section>
+
+      <section class="panel turn-panel">
+        <div class="turn-title" id="turnTitle">◷ YOUR TURN</div>
+        <div class="turn-sub" id="turnText">Draw a card.</div>
+      </section>
+    </aside>
+
+    <div class="bottom-tools">
+      <button class="round-icon" id="chatBtn">◯</button>
+      <button class="round-icon" id="emojiBtn">☺</button>
+    </div>
+  </div>
+
+  <!-- Opening Peek -->
+  <section id="peekOverlay" class="overlay hidden">
+    <div class="modal glass">
+      <div class="modal-kicker">OPENING MEMORY</div>
+      <h2>Look at any two cards</h2>
+      <p>Choose two. You’ll see them briefly, then they turn face down again.</p>
+      <div id="peekCards" class="peek-grid"></div>
+      <div id="peekCount">0 / 2 selected</div>
+      <button id="confirmPeek" class="primary-btn" disabled>MEMORIZE & START</button>
+    </div>
+  </section>
+
+  <!-- Special action picker -->
+  <section id="actionOverlay" class="overlay hidden">
+    <div class="modal glass compact">
+      <div class="modal-kicker" id="actionKicker">SPECIAL ACTION</div>
+      <h2 id="actionTitle">Choose a card</h2>
+      <p id="actionHelp"></p>
+      <div id="actionChoices"></div>
+      <button id="cancelAction" class="secondary-btn">CANCEL</button>
+    </div>
+  </section>
+
+  <!-- Round result -->
+  <section id="roundOverlay" class="overlay hidden">
+    <div class="modal glass result-modal">
+      <div class="modal-kicker">ROUND COMPLETE</div>
+      <h2 id="roundHeadline">The cards are revealed</h2>
+      <div id="resultPlayers" class="result-players"></div>
+      <button id="nextRound" class="primary-btn">NEXT ROUND</button>
+    </div>
+  </section>
+
+  <!-- Winner -->
+  <section id="winnerOverlay" class="overlay hidden">
+    <div class="modal glass winner-modal">
+      <div class="winner-glow">✦</div>
+      <div class="modal-kicker">GAME COMPLETE</div>
+      <h2 id="winnerTitle">MIDNIGHT CHAMPION</h2>
+      <div id="winnerText"></div>
+      <button id="rematchBtn" class="primary-btn">REMATCH</button>
+    </div>
+  </section>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

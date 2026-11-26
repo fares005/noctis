@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="600" viewBox="0 0 420 600">
+<defs>
+  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#05142b"/>
+    <stop offset=".55" stop-color="#09134f"/>
+    <stop offset="1" stop-color="#1b0839"/>
+  </linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect x="8" y="8" rx="26" ry="26" width="404" height="584" fill="url(#g)" stroke="#bb5cff" stroke-width="4"/>
+<g opacity=".35" stroke="#2bdcff" stroke-width="1.5">
+  <path d="M40 150 L120 80 L205 150 L300 65 L380 140"/>
+  <path d="M40 310 L125 220 L220 315 L325 225 L380 320"/>
+  <path d="M45 485 L125 405 L220 495 L330 410 L380 500"/>
+  <path d="M80 60 L150 540 M350 60 L275 540 M45 230 L380 380 M55 395 L365 190"/>
+</g>
+<g filter="url(#glow)">
+  <circle cx="210" cy="300" r="62" fill="none" stroke="#c267ff" stroke-width="5"/>
+  <path d="M235 246c-35 2-63 31-63 67 0 34 25 62 58 66-14 9-31 14-49 14-51 0-93-42-93-93s42-93 93-93c21 0 39 6 54 17z" fill="#f6d7ff"/>
+  <circle cx="275" cy="245" r="9" fill="#39e7ff"/>
+  <circle cx="297" cy="280" r="5" fill="#ff52dc"/>
+</g>
+</svg>

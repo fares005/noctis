@@ -1,0 +1,4 @@
+import { motion } from 'framer-motion';
+export function LoadingScreen({onStartMusic,music}:{onStartMusic?:()=>void;music?:boolean}){
+ return <div className="loading cosmic-loading"><div className="loading-stars"/><motion.div className="loading-astrolabe" animate={{rotate:360}} transition={{repeat:Infinity,duration:24,ease:'linear'}}><i/><i/><i/></motion.div><motion.div className="loading-seal" initial={{scale:.7,opacity:0}} animate={{scale:1,opacity:1}}><span>✦</span><b>☾</b></motion.div><motion.h1 initial={{letterSpacing:'1.2em',opacity:0}} animate={{letterSpacing:'.32em',opacity:1}}>NOCTIS</motion.h1><p>ENTER THE MIDNIGHT</p><small>MEMORY · STRATEGY · DESTINY</small><button className="loading-music" onClick={onStartMusic}>{music?'♫ MIDNIGHT HORIZON':'♫ AWAKEN THE SOUND'}</button><div className="loadbar"><motion.span initial={{width:0}} animate={{width:'100%'}} transition={{duration:1.8}}/></div></div>
+}

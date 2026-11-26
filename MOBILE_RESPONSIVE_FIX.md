@@ -1,0 +1,11 @@
+# NOCTIS mobile responsive layout
+- Responsive HUD and table sizing
+- Mobile-safe player/opponent hands
+- Touch-friendly draw/special buttons
+- Fixed mobile turn timer and emote control
+- Chat converted to bottom panel
+- Game log/music widgets hidden on narrow screens
+- Opening memory fits phone widths
+- Lobby/zodiac/settings/result screens fit mobile viewports
+- iPhone/Android safe-area support
+- Horizontal overflow removed

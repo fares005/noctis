@@ -1,0 +1,2 @@
+import { motion } from 'framer-motion';
+export function PlayerSeat({name,accent,position}:{name:string;accent:string;position:string}){return <motion.div className={`seat ${position}`} animate={{opacity:1,scale:1}} initial={{opacity:0,scale:.9}} style={{'--accent':accent} as React.CSSProperties}><div className="avatar">{name[0]}</div><div className="seat-name">{name}</div><div className="mini-hand">{[0,1,2,3].map(i=><img key={i} src="/assets/card-back-gold.png"/>)}</div></motion.div>}

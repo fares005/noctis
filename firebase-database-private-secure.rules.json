@@ -1,0 +1,25 @@
+{
+  "rules": {
+    "rooms": {
+      "$roomId": {
+        ".read": false,
+        ".write": false,
+        "hostId": { ".read": "auth != null", ".write": "auth != null" },
+        "status": { ".read": "auth != null", ".write": "auth != null" },
+        "rounds": { ".read": "auth != null", ".write": "auth != null" },
+        "memoryMode": { ".read": "auth != null", ".write": "auth != null" },
+        "createdAt": { ".read": "auth != null", ".write": "auth != null" },
+        "startPayload": { ".read": "auth != null", ".write": "auth != null" },
+        "members": { ".read": "auth != null", ".write": "auth != null" },
+        "colorClaims": { ".read": "auth != null", ".write": "auth != null" },
+        "game": { ".read": "auth != null", ".write": "auth != null" },
+        "private": {
+          "$uid": {
+            ".read": "auth != null && auth.uid === $uid",
+            ".write": "auth != null && auth.uid === $uid"
+          }
+        }
+      }
+    }
+  }
+}
